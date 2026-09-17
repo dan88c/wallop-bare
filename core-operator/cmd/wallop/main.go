@@ -9,17 +9,23 @@ import (
 	"strings"
 )
 
+// Injected at build time via -ldflags; defaults to "v0.1.0" for local dev
+var appVersion = "v0.1.0"
+
 const storeFile = "commands.txt"
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage:\n  register <command>\n  check\n  run +<line_number>")
+		fmt.Println("Usage:\n  register <command>\n  check\n  run +<line_number>\n  version")
 		return
 	}
 
 	action := os.Args[1]
 
 	switch action {
+	case "version", "-v", "--version":
+		fmt.Printf("core-operator version %s\n", appVersion)
+
 	case "register":
 		if len(os.Args) < 3 {
 			fmt.Println("Usage: register <command text>")
@@ -96,7 +102,6 @@ func runLine(lineNum int) {
 	targetCmd := lines[lineNum-1]
 	fmt.Printf("Executing [line %d]: %s\n", lineNum, targetCmd)
 
-	// Executes command using zsh (macOS default shell)
 	cmd := exec.Command("/bin/zsh", "-c", targetCmd)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
