@@ -44,11 +44,17 @@ A lightweight command orchestrator and automation runner written in Go, designed
 
 ## Build & Installation
 
-From the project root, compile the binary directly into the root `bin/` directory:
+### Option 1: Global Installation (Recommended)
+
+Install the binary directly into your `$GOPATH/bin` so you can invoke `wallop` from anywhere:
 
 ```bash
-# Build binary using the core-operator module
-go build -C core-operator -o ../bin/wallop ./cmd/wallop
+# Install to $HOME/go/bin
+go install -C core-operator ./cmd/wallop
+
+# Ensure Go bin directory is in your PATH (if not already configured)
+echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 
 # Grant execution permissions to demo scripts
 chmod +x demo/calendar-gateway/calendar.py \
@@ -57,7 +63,27 @@ chmod +x demo/calendar-gateway/calendar.py \
 
 ```
 
-> **Note:** Alternatively, `cd core-operator && go build -o ../bin/wallop ./cmd/wallop` achieves the same result.
+Verify the installation:
+
+```bash
+wallop check
+
+```
+
+---
+
+### Option 2: Local Build
+
+Compile the binary into the project root `bin/` folder without installing globally:
+
+```bash
+go build -C core-operator -o ../bin/wallop ./cmd/wallop
+
+```
+
+*(Commands must then be invoked via `./bin/wallop` instead of `wallop`)*
+
+```
 
 ---
 
