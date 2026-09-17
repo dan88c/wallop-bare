@@ -1,0 +1,41 @@
+name: Release Wallop Binaries
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Build Multi-Platform Binaries
+        run: |
+          mkdir -p dist
+          # macOS Apple Silicon (M1/M2/M3/M4)
+          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -C core-operator -o ../dist/wallop-darwin-arm64 ./cmd/wallop
+          # macOS Intel
+          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -C core-operator -o ../dist/wallop-darwin-amd64 ./cmd/wallop
+          # Linux x86_64
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -C core-operator -o ../dist/wallop-linux-amd64 ./cmd/wallop
+
+      - name: Create GitHub Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/wallop-darwin-arm64
+            dist/wallop-darwin-amd64
+            dist/wallop-linux-amd64
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
