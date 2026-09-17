@@ -1,15 +1,16 @@
-.PHONY: install build test-demo clean
+.PHONY: install build clean
 
-# Install binary to $HOME/go/bin for global access
+VERSION ?= v0.1.0
+LDFLAGS = -s -w -X main.appVersion=$(VERSION)
+
+# Install binary directly into $HOME/go/bin
 install:
-	go install -C core-operator ./cmd/wallop
-	chmod +x demo/calendar-gateway/calendar.py demo/openclaw-gateway/openclaw_runner.py demo/system-sentinel/sentinel.py
+	go install -C core-operator -ldflags "$(LDFLAGS)" ./cmd/wallop
 
-# Build binary into ./bin/wallop
+# Compile binary locally into ./bin/wallop
 build:
-	go build -C core-operator -o ../bin/wallop ./cmd/wallop
-	chmod +x demo/calendar-gateway/calendar.py demo/openclaw-gateway/openclaw_runner.py demo/system-sentinel/sentinel.py
+	go build -C core-operator -ldflags "$(LDFLAGS)" -o ../bin/wallop ./cmd/wallop
 
-# Reset commands and build output
+# Remove local build artifacts
 clean:
-	rm -f commands.txt bin/wallop
+	rm -rf bin/ dist/

@@ -42,18 +42,58 @@ A lightweight command orchestrator and automation runner written in Go, designed
 
 ---
 
-## Build & Installation
+## Installation
 
-### Option 1: Global Installation (Recommended)
+### Option 1: Pre-built Binaries (No Go Required)
 
-Installs `wallop` directly to `$HOME/go/bin` and sets demo execution permissions in one command:
+Download the pre-compiled binary matching your architecture from [GitHub Releases](https://github.com/dan88c/wallop/releases) and install it into your system PATH:
 
+#### For Apple Silicon Mac (M1/M2/M3/M4):
 ```bash
-make install
+chmod +x wallop-darwin-arm64
+sudo mv wallop-darwin-arm64 /usr/local/bin/wallop
 
 ```
 
-> **PATH Setup (One-time):** If you haven't added Go's bin directory to your PATH:
+#### For Intel Mac:
+
+```bash
+chmod +x wallop-darwin-amd64
+sudo mv wallop-darwin-amd64 /usr/local/bin/wallop
+
+```
+
+#### For Linux (x86_64):
+
+```bash
+chmod +x wallop-linux-amd64
+sudo mv wallop-linux-amd64 /usr/local/bin/wallop
+
+```
+
+Verify installation:
+
+```bash
+wallop version
+
+```
+
+---
+
+### Option 2: Build from Source via Makefile (Requires Go)
+
+If you clone the repository and prefer to compile locally with the same flags as the release build:
+
+```bash
+# Install binary globally to $HOME/go/bin
+make install
+
+# Or build locally to ./bin/wallop
+make build
+
+```
+
+> **PATH Setup (One-time):** If using `make install`, ensure Go's bin directory is in your PATH:
 > ```bash
 > echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 > 
@@ -61,20 +101,10 @@ make install
 > 
 > 
 
-Verify the installation:
+To clean up build artifacts:
 
 ```bash
-wallop check
-```
-
----
-
-### Option 2: Local Build
-
-Compiles the binary locally to `./bin/wallop`:
-
-```bash
-make build
+make clean
 ```
 
 ---
