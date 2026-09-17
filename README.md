@@ -1,5 +1,12 @@
 # Wallop
 
+> [!NOTE]
+> **Experimental Substrate for AI Agent Tool Execution**  
+> This repository is a proof-of-concept (PoC) exploring a lightweight, native execution layer designed to interface with AI agents and orchestrate local shell/Python workflows.
+> 
+> * **Intent:** Testing execution patterns and tool-calling interfaces between AI reasoning loops and local system tasks.
+> * **Status:** Sandbox prototype under active exploration; interfaces and CLI ergonomics are subject to rapid iteration.
+
 A lightweight command orchestrator and automation runner written in Go, designed to register, inspect, and execute multi-service shell tasks on macOS.
 
 ---
@@ -181,3 +188,7 @@ To reset local state and build artifacts:
 rm -f commands.txt bin/wallop
 
 ```
+
+## Acknowledgements
+
+Architected as an exploration into AI Agent tool execution layers. Implementation details, cross-compilation workflows, and Go scaffolding were developed using AI-assisted pair programming.
